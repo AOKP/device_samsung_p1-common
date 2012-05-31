@@ -24,4 +24,8 @@
     <string name="backlight_timeout_title_head">Backlight Timeout</string>
     <string name="backlight_timeout_summary_head">Adjust the delay before the touch key backlight automatically turns off</string>
 
+    <string name="category_gpu_oc">GPU</string>
+    <string name="gpu_oc_title">GPU Overclocking</string>
+    <string name="gpu_oc_summary">Change GPU clock speeds</string>
+
 </resources>

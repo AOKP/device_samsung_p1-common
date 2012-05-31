@@ -25,6 +25,8 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_BUTTONS_DISABLE = "buttons_disable";
     public static final String KEY_BUTTONS = "buttons_category";
     public static final String KEY_BACKLIGHT_TIMEOUT = "backlight_timeout";
+    public static final String KEY_GPU_OC = "gpu_oc";
+    public static final String KEY_GPU_OC_CATEGORY = "gpu_oc_category";
 
     private ListPreference mHspa;
     private CheckBoxPreference mTvOutEnable;
@@ -35,6 +37,7 @@ public class DeviceSettings extends PreferenceActivity  {
     private Activity	me;
     private CheckBoxPreference mDisableButtons;
     private ListPreference mBacklightTimeout;
+    private ListPreference mGpuOC;
 
     private boolean	mTVoutConnected = false;
     private boolean mHDMIConnected = false;
@@ -116,6 +119,10 @@ public class DeviceSettings extends PreferenceActivity  {
         mBacklightTimeout = (ListPreference) findPreference(KEY_BACKLIGHT_TIMEOUT);
         mBacklightTimeout.setEnabled(TouchKeyBacklightTimeout.isSupported());
         mBacklightTimeout.setOnPreferenceChangeListener(new TouchKeyBacklightTimeout());
+
+        mGpuOC = (ListPreference) findPreference(KEY_GPU_OC);
+        mGpuOC.setEnabled(GpuOC.isSupported());
+        mGpuOC.setOnPreferenceChangeListener(new GpuOC());
 
         c30plug = new C30Observer();
         

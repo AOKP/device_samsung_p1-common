@@ -42,4 +42,15 @@
         <item>30000</item>
         <item>-1</item>
     </string-array>
+
+    <string-array name="gpu_oc_entries" translatable="false">
+        <item>200 MHz (Default)</item>
+        <item>320 MHz</item>
+    </string-array>
+
+    <string-array name="gpu_oc_entries_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

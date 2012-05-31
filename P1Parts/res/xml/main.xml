@@ -56,4 +56,16 @@
                 android:defaultValue="1600" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/category_gpu_oc"
+        android:key="gpu_oc_category">
+        <ListPreference
+            android:key="gpu_oc"
+            android:title="@string/gpu_oc_title"
+            android:summary="@string/gpu_oc_summary"
+            android:entries="@array/gpu_oc_entries"
+            android:entryValues="@array/gpu_oc_entries_values"
+            android:defaultValue="0" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
