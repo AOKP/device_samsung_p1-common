@@ -24,13 +24,9 @@ public class DeviceSettings extends PreferenceActivity  {
     public static final String KEY_HDMI_ENABLE = "hdmi_enable";
     public static final String KEY_BUTTONS_DISABLE = "buttons_disable";
     public static final String KEY_BUTTONS = "buttons_category";
-
-    public static final String COMMAND_SHELL = "/system/bin/sh";
-    public static final String ECHO_COMMAND = "echo ";
-    public static final String BUTTONS_ENABLED_PATH =
-            "/sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
-    public static final String BUTTONS_ENABLED_COMMAND =
-            " > /sys/devices/platform/s3c2440-i2c.2/i2c-2/2-004a/buttons_enabled";
+    public static final String KEY_BACKLIGHT_TIMEOUT = "backlight_timeout";
+    public static final String KEY_GPU_OC = "gpu_oc";
+    public static final String KEY_GPU_OC_CATEGORY = "gpu_oc_category";
 
     private ListPreference mHspa;
     private CheckBoxPreference mTvOutEnable;
@@ -40,6 +36,8 @@ public class DeviceSettings extends PreferenceActivity  {
     private C30Observer	c30plug;
     private Activity	me;
     private CheckBoxPreference mDisableButtons;
+    private ListPreference mBacklightTimeout;
+    private ListPreference mGpuOC;
 
     private boolean	mTVoutConnected = false;
     private boolean mHDMIConnected = false;
@@ -61,8 +59,6 @@ public class DeviceSettings extends PreferenceActivity  {
         
         me = this;
         
-        PreferenceScreen prefSet = getPreferenceScreen();
-
         mHspa = (ListPreference) findPreference(KEY_HSPA);
         mHspa.setEnabled(Hspa.isSupported());
         mHspa.setOnPreferenceChangeListener(new Hspa(this));
@@ -117,10 +113,16 @@ public class DeviceSettings extends PreferenceActivity  {
         });
 
         mDisableButtons = (CheckBoxPreference) findPreference(KEY_BUTTONS_DISABLE);
-        File file = new File(BUTTONS_ENABLED_PATH);
-        if (!file.exists()) {
-            prefSet.removePreference(findPreference(KEY_BUTTONS));
-        }
+        mDisableButtons.setEnabled(ToggleCapacitiveKeys.isSupported());
+        mDisableButtons.setOnPreferenceChangeListener(new ToggleCapacitiveKeys());
+
+        mBacklightTimeout = (ListPreference) findPreference(KEY_BACKLIGHT_TIMEOUT);
+        mBacklightTimeout.setEnabled(TouchKeyBacklightTimeout.isSupported());
+        mBacklightTimeout.setOnPreferenceChangeListener(new TouchKeyBacklightTimeout());
+
+        mGpuOC = (ListPreference) findPreference(KEY_GPU_OC);
+        mGpuOC.setEnabled(GpuOC.isSupported());
+        mGpuOC.setOnPreferenceChangeListener(new GpuOC());
 
         c30plug = new C30Observer();
         
@@ -203,23 +205,6 @@ public class DeviceSettings extends PreferenceActivity  {
     protected void onDestroy() {
         mTvOut.finalize();
         super.onDestroy();
-    }
-
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        boolean value;
-        if (preference == mDisableButtons) {
-            value = mDisableButtons.isChecked();
-            try {
-                String[] cmds = {COMMAND_SHELL, "-c",
-                        ECHO_COMMAND + (value ? "0" : "1") +
-                        BUTTONS_ENABLED_COMMAND};
-                Runtime.getRuntime().exec(cmds);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-        return false;
     }
 
 }

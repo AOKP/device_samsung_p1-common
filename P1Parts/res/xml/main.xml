@@ -46,6 +46,26 @@
             android:title="@string/capacitive_buttons_title"
             android:summary="@string/capacitive_buttons_summary"
             android:defaultValue="false" />
+            <!-- Touch key backlight timeout -->
+            <ListPreference
+                android:key="backlight_timeout"
+                android:title="@string/backlight_timeout_title_head"
+                android:summary="@string/backlight_timeout_summary_head"
+                android:entries="@array/backlight_timeout_entries"
+                android:entryValues="@array/backlight_timeout_entries_values"
+                android:defaultValue="1600" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/category_gpu_oc"
+        android:key="gpu_oc_category">
+        <ListPreference
+            android:key="gpu_oc"
+            android:title="@string/gpu_oc_title"
+            android:summary="@string/gpu_oc_summary"
+            android:entries="@array/gpu_oc_entries"
+            android:entryValues="@array/gpu_oc_entries_values"
+            android:defaultValue="0" />
     </PreferenceCategory>
 
 </PreferenceScreen>
